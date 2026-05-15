@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Colombia - Beta</title>
+    <title>Elite Colombia - Plataforma</title>
     <style>
         body, html {
             margin: 0;
@@ -19,6 +19,17 @@
     </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbxgKTz2r8k5SdLf9-wgHM0zUNjXNqcV-627d5nbsf5ayy-um67kcGEEGLEi_V8SmfY/exec"></iframe>
+    <iframe id="app-frame" src=""></iframe>
+
+    <script>
+        // Aquí está el link de tu nuevo script de Google (el que vi en tu captura)
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbxgKTz2r8k5SdLf9-wgHN0zLNJXNqcV-627d5nbsf5ayy-un67kcGEEG1E1_V8SmfY/exec";
+        
+        // Esto captura si el link trae ?vendedor=... o ?boleto=...
+        var parametros = window.location.search;
+        
+        // Carga el iframe uniendo el script de Google + los parámetros
+        document.getElementById("app-frame").src = scriptUrl + parametros;
+    </script>
 </body>
 </html>
