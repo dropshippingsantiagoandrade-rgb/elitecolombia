@@ -42,6 +42,7 @@
 
         var iframe = document.createElement('iframe');
         iframe.src = finalUrl;
+        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
         document.body.appendChild(iframe);
     </script>
 </body>
