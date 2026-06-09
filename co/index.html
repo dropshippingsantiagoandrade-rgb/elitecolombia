@@ -39,6 +39,10 @@
         else if (params.get('vendedor')) {
             finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
         }
+        // ?dd=1 (Dinámicas Diarias)
+else if (params.get('dd') !== null) {
+    finalUrl += "?dd=" + params.get('dd');
+}
 
         var iframe = document.createElement('iframe');
     iframe.src = finalUrl;
