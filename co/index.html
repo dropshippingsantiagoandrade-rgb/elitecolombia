@@ -40,14 +40,18 @@
             finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
         }
         // ?dd=1 (Dinámicas Diarias)
-else if (params.get('dd') !== null) {
-    finalUrl += "?dd=" + params.get('dd');
-}
+        else if (params.get('dd') !== null) {
+            finalUrl += "?dd=" + params.get('dd');
+        }
+        // ?login=1 (Panel de Vendedores)
+        else if (params.get('login') !== null) {
+            finalUrl += "?login=" + params.get('login');
+        }
 
         var iframe = document.createElement('iframe');
-    iframe.src = finalUrl;
-    iframe.setAttribute('allow', 'clipboard-read; clipboard-write'); // <-- ¡NO OLVIDES ESTA LÍNEA!
-    document.body.appendChild(iframe);
+        iframe.src = finalUrl;
+        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
+        document.body.appendChild(iframe);
     </script>
 </body>
 </html>
