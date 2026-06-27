@@ -11,29 +11,46 @@
 </head>
 <body>
     <script>
-        // Tu enlace original del sistema de Google
-        const scriptUrl = "https://script.google.com/macros/s/AKfycbx5iWOpFUEHK1QKzwm6uDTAlIsyzFrJTQAPmFiZCxy90PJPWr6zAPiKUjIYeYr02xOT/exec";
-        
-        // Leemos lo que el cliente escribió (ej: /boleta/0045)
-        const path = window.location.pathname;
-        let finalUrl = scriptUrl;
-        
-        // Magia: Detectar si están buscando una boleta
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
+
+        var path = window.location.pathname;
+        var params = new URLSearchParams(window.location.search);
+        var finalUrl = scriptUrl;
+
+        // Rutas tipo /boleta/0045
         if (path.includes("/boleta/")) {
-            const parts = path.split("/boleta/");
-            if(parts.length > 1) {
-                const numero = parts[1].replace(/[^0-9]/g, ''); // Saca solo los números
+            var parts = path.split("/boleta/");
+            if (parts.length > 1) {
+                var numero = parts[1].replace(/[^0-9]/g, '');
                 if (numero) finalUrl += "?boleto=" + numero;
             }
-        } 
-        // Detectar si están buscando el catálogo público
+        }
+        // Rutas tipo /catalogo
         else if (path.includes("/catalogo")) {
             finalUrl += "?v=cliente";
+            var vend = params.get('vendedor');
+            if (vend) finalUrl += "&vendedor=" + encodeURIComponent(vend);
+        }
+        // ?boleto=0045
+        else if (params.get('boleto')) {
+            finalUrl += "?boleto=" + params.get('boleto');
+        }
+        // ?vendedor=nombre
+        else if (params.get('vendedor')) {
+            finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
+        }
+        // ?dd=1 (Dinámicas Diarias)
+        else if (params.get('dd') !== null) {
+            finalUrl += "?dd=" + params.get('dd');
+        }
+        // ?login=1 (Panel de Vendedores)
+        else if (params.get('login') !== null) {
+            finalUrl += "?login=" + params.get('login');
         }
 
-        // Crear el marco invisible que carga tu sistema
-        const iframe = document.createElement('iframe');
+        var iframe = document.createElement('iframe');
         iframe.src = finalUrl;
+        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
         document.body.appendChild(iframe);
     </script>
 </body>
