@@ -11,41 +11,45 @@
 </head>
 <body>
     <script>
+        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (Si cambió en el Paso 1)
         var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
 
         var path = window.location.pathname;
         var params = new URLSearchParams(window.location.search);
         var finalUrl = scriptUrl;
 
-        // Rutas tipo /boleta/0045
+        // Función inteligente para añadir parámetros sin corromper la URL
+        function addParam(key, value) {
+            finalUrl += (finalUrl.includes('?') ? '&' : '?') + key + '=' + encodeURIComponent(value);
+        }
+
+        // 1. Enlace de boleta individual (/boleta/0045)
         if (path.includes("/boleta/")) {
             var parts = path.split("/boleta/");
             if (parts.length > 1) {
                 var numero = parts[1].replace(/[^0-9]/g, '');
-                if (numero) finalUrl += "?boleto=" + numero;
+                if (numero) addParam('boleto', numero);
             }
         }
-        // Rutas tipo /catalogo
+        // 2. Enlace del Catálogo Público (/catalogo)
         else if (path.includes("/catalogo")) {
-            finalUrl += "?v=cliente";
             var vend = params.get('vendedor');
-            if (vend) finalUrl += "&vendedor=" + encodeURIComponent(vend);
+            if (vend) addParam('vendedor', vend);
         }
-        // NUEVA RUTA: /vendedor para abrir el panel de ventas y login
+        // 3. Enlace de los Vendedores (/vendedor)
         else if (path.includes("/vendedor") || params.get('login') !== null) {
-            finalUrl += "?login=1";
+            addParam('login', '1');
         }
-        // ?boleto=0045
-        else if (params.get('boleto')) {
-            finalUrl += "?boleto=" + params.get('boleto');
-        }
-        // ?vendedor=nombre
-        else if (params.get('vendedor')) {
-            finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
-        }
-        // ?dd=1 (Dinámicas Diarias)
-        else if (params.get('dd') !== null) {
-            finalUrl += "?dd=" + params.get('dd');
+        // 4. Enlaces directos antiguos (?vendedor=, ?boleto=, ?dd=)
+        else {
+            if (params.get('boleto')) addParam('boleto', params.get('boleto'));
+            else if (params.get('vendedor')) addParam('vendedor', params.get('vendedor'));
+            else if (params.get('dd')) addParam('dd', params.get('dd'));
+            else if (params.get('mini')) {
+                addParam('mini', params.get('mini'));
+                if (params.get('wpp')) addParam('wpp', params.get('wpp'));
+                if (params.get('titulo')) addParam('titulo', params.get('titulo'));
+            }
         }
 
         // Crear e inyectar el iframe
