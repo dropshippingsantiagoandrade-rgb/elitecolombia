@@ -31,6 +31,10 @@
             var vend = params.get('vendedor');
             if (vend) finalUrl += "&vendedor=" + encodeURIComponent(vend);
         }
+        // NUEVA RUTA: /vendedor para abrir el panel de ventas y login
+        else if (path.includes("/vendedor") || params.get('login') !== null) {
+            finalUrl += "?login=1";
+        }
         // ?boleto=0045
         else if (params.get('boleto')) {
             finalUrl += "?boleto=" + params.get('boleto');
@@ -43,11 +47,8 @@
         else if (params.get('dd') !== null) {
             finalUrl += "?dd=" + params.get('dd');
         }
-        // ?login=1 (Panel de Vendedores)
-        else if (params.get('login') !== null) {
-            finalUrl += "?login=" + params.get('login');
-        }
 
+        // Crear e inyectar el iframe
         var iframe = document.createElement('iframe');
         iframe.src = finalUrl;
         iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
