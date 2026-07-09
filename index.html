@@ -1,48 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rifas Elite Colombia</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #050a06; }
-        iframe { width: 100%; height: 100%; border: none; }
+        body, html { margin:0; padding:0; height:100%; width:100%; }
+        iframe { width:100%; height:100%; border:none; }
     </style>
 </head>
 <body>
-    <script>
-        var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
-        var path = window.location.pathname;
-        var params = new URLSearchParams(window.location.search);
-        var finalUrl = scriptUrl;
-        if (path.includes("/boleta/")) {
-            var parts = path.split("/boleta/");
-            if (parts.length > 1) {
-                var numero = parts[1].replace(/[^0-9]/g, '');
-                if (numero) finalUrl += "?boleto=" + numero;
-            }
-        }
-        else if (path.includes("/catalogo")) {
-            finalUrl += "?v=cliente";
-            var vend = params.get('vendedor');
-            if (vend) finalUrl += "&vendedor=" + encodeURIComponent(vend);
-        }
-        else if (params.get('boleto')) {
-            finalUrl += "?boleto=" + params.get('boleto');
-        }
-        else if (params.get('vendedor')) {
-            finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
-        }
-        else if (params.get('dd') !== null) {
-            finalUrl += "?dd=" + params.get('dd');
-        }
-        else if (params.get('login') !== null) {
-            finalUrl += "?login=" + params.get('login');
-        }
-        var iframe = document.createElement('iframe');
-        iframe.src = finalUrl;
-        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
-        document.body.appendChild(iframe);
-    </script>
+    <iframe src="https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec" 
+            style="width:100%; height:100%; border:none;"></iframe>
 </body>
 </html>
