@@ -12,12 +12,9 @@
 <body>
     <script>
         var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
-
         var path = window.location.pathname;
         var params = new URLSearchParams(window.location.search);
         var finalUrl = scriptUrl;
-
-        // Rutas tipo /boleta/0045
         if (path.includes("/boleta/")) {
             var parts = path.split("/boleta/");
             if (parts.length > 1) {
@@ -25,29 +22,23 @@
                 if (numero) finalUrl += "?boleto=" + numero;
             }
         }
-        // Rutas tipo /catalogo
         else if (path.includes("/catalogo")) {
             finalUrl += "?v=cliente";
             var vend = params.get('vendedor');
             if (vend) finalUrl += "&vendedor=" + encodeURIComponent(vend);
         }
-        // ?boleto=0045
         else if (params.get('boleto')) {
             finalUrl += "?boleto=" + params.get('boleto');
         }
-        // ?vendedor=nombre
         else if (params.get('vendedor')) {
             finalUrl += "?vendedor=" + encodeURIComponent(params.get('vendedor'));
         }
-        // ?dd=1 (Dinámicas Diarias)
         else if (params.get('dd') !== null) {
             finalUrl += "?dd=" + params.get('dd');
         }
-        // ?login=1 (Panel de Vendedores)
         else if (params.get('login') !== null) {
             finalUrl += "?login=" + params.get('login');
         }
-
         var iframe = document.createElement('iframe');
         iframe.src = finalUrl;
         iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
