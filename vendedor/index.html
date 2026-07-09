@@ -1,62 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rifas Elite Colombia</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #050a06; }
-        iframe { width: 100%; height: 100%; border: none; }
+        body, html { margin:0; padding:0; height:100%; width:100%; background:#050a06; }
+        #miIframe { width:100%; height:100%; border:none; }
     </style>
 </head>
 <body>
+    <iframe id="miIframe" allow="clipboard-read; clipboard-write; storage-access-api" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
     <script>
-        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (Si cambió en el Paso 1)
-        var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
+        var scriptUrl = "TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI/exec";
+        var iframe = document.getElementById('miIframe');
+        
+        // Pasamos la URL completa con parámetros
+        iframe.src = scriptUrl + window.location.search;
 
-        var path = window.location.pathname;
-        var params = new URLSearchParams(window.location.search);
-        var finalUrl = scriptUrl;
-
-        // Función inteligente para añadir parámetros sin corromper la URL
-        function addParam(key, value) {
-            finalUrl += (finalUrl.includes('?') ? '&' : '?') + key + '=' + encodeURIComponent(value);
+        // Intentar solicitar permiso de almacenamiento (crucial para iOS)
+        if (document.requestStorageAccess) {
+            document.requestStorageAccess().catch(function() {});
         }
-
-        // 1. Enlace de boleta individual (/boleta/0045)
-        if (path.includes("/boleta/")) {
-            var parts = path.split("/boleta/");
-            if (parts.length > 1) {
-                var numero = parts[1].replace(/[^0-9]/g, '');
-                if (numero) addParam('boleto', numero);
-            }
-        }
-        // 2. Enlace del Catálogo Público (/catalogo)
-        else if (path.includes("/catalogo")) {
-            var vend = params.get('vendedor');
-            if (vend) addParam('vendedor', vend);
-        }
-        // 3. Enlace de los Vendedores (/vendedor)
-        else if (path.includes("/vendedor") || params.get('login') !== null) {
-            addParam('login', '1');
-        }
-        // 4. Enlaces directos antiguos (?vendedor=, ?boleto=, ?dd=)
-        else {
-            if (params.get('boleto')) addParam('boleto', params.get('boleto'));
-            else if (params.get('vendedor')) addParam('vendedor', params.get('vendedor'));
-            else if (params.get('dd')) addParam('dd', params.get('dd'));
-            else if (params.get('mini')) {
-                addParam('mini', params.get('mini'));
-                if (params.get('wpp')) addParam('wpp', params.get('wpp'));
-                if (params.get('titulo')) addParam('titulo', params.get('titulo'));
-            }
-        }
-
-        // Crear e inyectar el iframe
-        var iframe = document.createElement('iframe');
-        iframe.src = finalUrl;
-        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
-        document.body.appendChild(iframe);
     </script>
 </body>
 </html>
