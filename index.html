@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rifas Elite Colombia</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; background-color: #050a06; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #050a06; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
@@ -47,7 +48,10 @@
             finalUrl += "?login=" + params.get('login');
         }
 
-        window.location.replace(finalUrl);
+        var iframe = document.createElement('iframe');
+        iframe.src = finalUrl;
+        iframe.setAttribute('allow', 'clipboard-read; clipboard-write');
+        document.body.appendChild(iframe);
     </script>
 </body>
 </html>
