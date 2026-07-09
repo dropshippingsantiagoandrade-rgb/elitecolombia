@@ -8,18 +8,16 @@
     </style>
 </head>
 <body>
-    <iframe id="miIframe" allow="clipboard-read; clipboard-write; storage-access-api" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+    <iframe id="miIframe" 
+            allow="clipboard-read; clipboard-write; storage-access 'src'; cookies 'src';" 
+            sandbox="allow-scripts allow-same-origin allow-forms allow-top-navigation">
+    </iframe>
     <script>
-        var scriptUrl = "TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI/exec";
-        var iframe = document.getElementById('miIframe');
+        // Asegúrate de tener tu URL correcta aquí
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbw8OZtDjl2kzs0zUU_RoVL6CzOiUnQl9cG9wzS_Bapux06Sb6SjxngKw0aX3_6IpCQ/exec";
         
-        // Pasamos la URL completa con parámetros
+        var iframe = document.getElementById('miIframe');
         iframe.src = scriptUrl + window.location.search;
-
-        // Intentar solicitar permiso de almacenamiento (crucial para iOS)
-        if (document.requestStorageAccess) {
-            document.requestStorageAccess().catch(function() {});
-        }
     </script>
 </body>
 </html>
